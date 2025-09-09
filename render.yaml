@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: access-backend
+    runtime: python
+    plan: free
+    region: oregon
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn backend.wsgi --bind 0.0.0.0:$PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.3
+  - type: static
+    name: access-frontend
+    plan: free
+    rootDir: frontend
+    buildCommand: npm i && npm run build
+    staticPublishPath: dist
+
